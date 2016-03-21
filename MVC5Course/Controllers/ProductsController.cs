@@ -17,7 +17,7 @@ namespace MVC5Course.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            return View(db.Product.Where(p => p.Price >=5 && p.Price < 6).ToList());
+            return View(db.Product.Where(p => p.ProductId > 1550).ToList());
         }
 
         // GET: Products/Details/5
@@ -48,6 +48,7 @@ namespace MVC5Course.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product)
         {
+            //TODO:編輯時判斷模型驗證是否有通過ModelState.IsValid
             if (ModelState.IsValid)
             {
                 db.Product.Add(product);
