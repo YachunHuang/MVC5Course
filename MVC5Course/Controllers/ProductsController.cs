@@ -10,14 +10,42 @@ using MVC5Course.Models;
 
 namespace MVC5Course.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
-        private FabricsEntities db = new FabricsEntities();
+        //TODO:透過Repository來存取Entity Framework
+        //ProductRepository repo = RepositoryHelper.GetProductRepository();
+        //private FabricsEntities db = new FabricsEntities();
 
         // GET: Products
         public ActionResult Index()
         {
-            return View(db.Product.Where(p => p.ProductId > 1550).ToList());
+            //var data = db.Product.Where(p => p.ProductId > 1550).ToList();
+            //只顯示五筆
+            var data = reportProduct.All().Take(5).ToList();
+            return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult Index(IList<BachUpdateProduct> data)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in data)
+                {
+                    var prod = reportProduct.Find(item.ProductId);
+                    prod.Price = item.Price;
+                    prod.Stock = item.Stock;
+                    prod.Active = item.Active;
+                }
+                reportProduct.UnitOfWork.Commit();
+                return RedirectToAction("Index");
+            }
+
+            //TODO:model state會優先顯示，如果沒值的話會再去抓model的值。
+            //所以在驗證錯誤後，畫面上留下來的值會是最後打的那個值，而不會是最原始的值。
+            ViewData.Model = reportProduct.All().Take(5).ToList();
+            return View();
+
         }
 
         // GET: Products/Details/5
@@ -27,7 +55,7 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            Product product = reportProduct.Find(id.Value);
             if (product == null)
             {
                 return HttpNotFound();
@@ -51,8 +79,10 @@ namespace MVC5Course.Controllers
             //TODO:編輯時判斷模型驗證是否有通過ModelState.IsValid
             if (ModelState.IsValid)
             {
-                db.Product.Add(product);
-                db.SaveChanges();
+                //db.Product.Add(product);
+                //db.SaveChanges();
+                reportProduct.Add(product);
+                reportProduct.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +96,7 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            Product product = reportProduct.Find(id.Value);
             if (product == null)
             {
                 return HttpNotFound();
@@ -83,8 +113,14 @@ namespace MVC5Course.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
-                db.SaveChanges();
+                var dbProduct = (FabricsEntities)reportProduct.UnitOfWork.Context;
+                dbProduct.Entry(product).State = EntityState.Modified;
+                //db.SaveChanges();
+                reportProduct.UnitOfWork.Commit();
+
+                //TODO:TempData預設存在Session裡面，只要被讀過一次就會不見了。
+                TempData["ProductsEditMsg"] = product.ProductName + "更新成功";
+
                 return RedirectToAction("Index");
             }
             return View(product);
@@ -97,7 +133,7 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            Product product = reportProduct.Find(id.Value);
             if (product == null)
             {
                 return HttpNotFound();
@@ -110,9 +146,9 @@ namespace MVC5Course.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Product.Find(id);
-            db.Product.Remove(product);
-            db.SaveChanges();
+            Product product = reportProduct.Find(id);
+            reportProduct.Delete(product);
+            reportProduct.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
@@ -120,7 +156,7 @@ namespace MVC5Course.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                reportProduct.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }

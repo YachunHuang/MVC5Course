@@ -23,17 +23,18 @@ namespace MVC5Course.Models
                 //update only
             }
 
-            if (this.Price < 100)
-            {
-                yield return new ValidationResult("Price error(模型驗證IValidatableObject)", 
-                    new string[] { "Price"});
-            }
+            //if (this.Price < 100)
+            //{
+            //    yield return new ValidationResult("Price error(模型驗證IValidatableObject)", 
+            //        new string[] { "Price"});
+            //}
 
-            if (this.Stock > 10)
-            {
-                yield return new ValidationResult("Price error 2",
-                    new string[] { "Stock" });
-            }
+            //if (this.Stock > 10)
+            //{
+            //    yield return new ValidationResult("Price error 2",
+            //        new string[] { "Stock" });
+            //}
+            yield break;
         }
     }
 

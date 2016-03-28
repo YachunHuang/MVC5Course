@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MVC5Course.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         //TODO:輸入propfull按下tab
         //private int myprop;

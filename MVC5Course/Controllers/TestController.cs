@@ -10,9 +10,9 @@ using System.Web.Mvc;
 
 namespace MVC5Course.Controllers
 {
-    public class TestController : Controller
+    public class TestController : BaseController
     {
-        FabricsEntities db = new FabricsEntities();
+        //FabricsEntities db = new FabricsEntities();
 
         // GET: Test
         public ActionResult Index()
