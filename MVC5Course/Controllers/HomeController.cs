@@ -67,7 +67,7 @@ namespace MVC5Course.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-            
+
             return View();
         }
 
@@ -78,8 +78,17 @@ namespace MVC5Course.Controllers
             return View();
         }
 
-        public ActionResult Test()
+        //TODO:自訂錯誤畫面與自訂訊息內容HandleError
+        //加上ExceptionType可以決定什麼錯誤要跑什麼錯誤頁面，除了指定的錯誤要跑Error這個頁面以外其餘都會在Error2作顯示
+        [HandleError(ExceptionType = typeof(InvalidOperationException), View = "Error2")]
+        public ActionResult Test(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("kiwi拋出自訂錯誤ArgumentException");
+            }
+            throw new InvalidOperationException("kiwi操作錯誤InvalidOperationException");
+
             return View();
         }
     }
