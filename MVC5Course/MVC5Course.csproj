@@ -184,8 +184,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ARController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Models\EditProfileViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
@@ -290,6 +290,7 @@
     </Compile>
     <Compile Include="Models\產品名稱至少包含一個大寫字元Attribute.cs" />
     <Compile Include="Models\產品名稱至少包含兩個空白字元Attribute.cs" />
+    <Compile Include="Models\計算Action的執行時間Attribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

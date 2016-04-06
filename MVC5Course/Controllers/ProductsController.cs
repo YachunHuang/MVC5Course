@@ -10,6 +10,8 @@ using MVC5Course.Models;
 
 namespace MVC5Course.Controllers
 {
+    [計算Action的執行時間]
+    [Authorize]
     public class ProductsController : BaseController
     {
         //TODO:透過Repository來存取Entity Framework
@@ -109,13 +111,21 @@ namespace MVC5Course.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product)
+        public ActionResult Edit(int id, FormCollection form)
+            //[Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product)
         {
-            if (ModelState.IsValid)
+            //FormCollection這個模式用不到
+            var product = reportProduct.Find(id);
+
+            //if (ModelState.IsValid)
+            
+            //這種寫法大都使用在Edit
+            //取得完整的值後再做Model binding
+            if(TryUpdateModel(product,new string[] { "ProductId","ProductName","Price","Active","Stock" }))
             {
-                var dbProduct = (FabricsEntities)reportProduct.UnitOfWork.Context;
-                dbProduct.Entry(product).State = EntityState.Modified;
-                //db.SaveChanges();
+                //在TryUpdateModel的時候product的值已經被改掉了，所以直接Commit即可。
+                //var dbProduct = (FabricsEntities)reportProduct.UnitOfWork.Context;
+                //dbProduct.Entry(product).State = EntityState.Modified;
                 reportProduct.UnitOfWork.Commit();
 
                 //TODO:TempData預設存在Session裡面，只要被讀過一次就會不見了。
