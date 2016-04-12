@@ -1,73 +1,103 @@
 ﻿@model IEnumerable<MVC5Course.Models.Client>
+@using PagedList
+@using PagedList.Mvc
 <p>
 
 </p>
-@using (Html.BeginForm("Index","Clients", FormMethod.Get, new { name="form1"}))
-{
-<p>
-    @Html.DropDownList("Gender", null,"---請選擇---", new { onchange="this.form.submit();"}) |
-    @Html.DropDownList("CreaditRating", null, "---請選擇 Rating---", new { onchange = "this.form.submit();" }) |
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MiddleName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Gender)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreditRating)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.XCode)
-        </th>
-        
-        <th></th>
-    </tr>
 
-@foreach (var item in Model)
+@using (Html.BeginForm("Index", "Clients", FormMethod.Get, new { name = "form1" }))
 {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MiddleName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gender)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateOfBirth)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreditRating)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.XCode)
-        </td>
+    @Html.Hidden("page")
+    <p>
+        @Html.DropDownList("Gender", null, "---請選擇---", new { onchange = "this.form.submit();" }) |
+        @Html.DropDownList("CreaditRating", null, "---請選擇 Rating---", new { onchange = "this.form.submit();" }) |
+        @Html.ActionLink("Create New", "Create") |
+        @Ajax.ActionLink("取得時間", "GetTime", new AjaxOptions() { UpdateTargetId = "time" })<span id="time"></span>
+        <span id="loading" style="display:none;">
+            <img src="~/img/icon-kiwi.jpg" />
+        </span>
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MiddleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreditRating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.XCode)
+            </th>
 
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ClientId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ClientId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ClientId })
-        </td>
-    </tr>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MiddleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditRating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.XCode)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ClientId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ClientId }, new AjaxOptions() { UpdateTargetId = "details", Confirm = "你確定嗎?", LoadingElementId = "loading" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ClientId })
+                </td>
+            </tr>
+        }
+
+    </table>
 }
 
-</table>
+@Html.PagedListPager(Model as IPagedList, p => Url.Action("Index", new { page = p }))
+
+@section scripts {
+
+    <script>
+        $(function () {
+            $('.pagination-container a').on('click', function () {
+                
+                var href = $(this).attr('href');
+                var pars = href.substring(href.indexOf('?page=') + 6);
+                
+                document.form1.page.value = pars;
+                document.form1.submit();
+                return false;
+            })
+        })
+
+    </script>
 }
+
+<div id="details"></div>
