@@ -65,6 +65,12 @@ namespace MVC5Course.Controllers
             return View(product);
         }
 
+        public ActionResult OrderLines(int ProductId)
+        {
+            //TODO:@Html.Partial、@Html.Action 兩種寫法的結果都一樣，會因為需求不同選擇不同的寫法，例如要做額外的事情的話可以使用@Html.Action的方式，這樣子一來就不需要在Details的時候取得太多不必要的資料，而是等到有需要時再取得。
+            return PartialView(reportProduct.Find(ProductId).OrderLine);
+        }
+
         // GET: Products/Create
         public ActionResult Create()
         {
