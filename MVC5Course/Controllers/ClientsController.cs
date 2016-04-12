@@ -92,6 +92,7 @@ namespace MVC5Course.Controllers
                 return HttpNotFound();
             }
             ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
+
             return View(client);
         }
 

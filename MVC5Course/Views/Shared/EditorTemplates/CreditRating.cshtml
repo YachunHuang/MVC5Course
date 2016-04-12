@@ -1,11 +1,9 @@
 ﻿@model double?
-@if (Model.HasValue)
-{
-    for (int i = 0; i < 10; i++)
-    {
-        <label>
-            @Html.RadioButton("", i, Model.HasValue && Model.Value == i)
-            @i 
-        </label>
-    }
+@using MVC5Course.Models;
+@{
+    var db = new FabricsEntities();
+    var ratinglist = (from p in db.Client select p.CreditRating)
+                            .Distinct().OrderBy(p => p).ToList();
+    var CreditRating = new SelectList(ratinglist, Model);
+    @Html.DropDownList("", CreditRating, "---請選擇 Rating---")
 }
