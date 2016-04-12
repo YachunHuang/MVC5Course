@@ -385,6 +385,7 @@
     <Content Include="img\glyphicons_halflings-white.svg" />
     <Content Include="img\glyphicons_halflings.png" />
     <Content Include="img\glyphicons_halflings.svg" />
+    <Content Include="img\icon-kiwi.jpg" />
     <Content Include="img\icons-big.png" />
     <Content Include="img\icons-small.png" />
     <Content Include="img\iphone-style-checkboxes\off-63584.png" />
@@ -593,6 +594,10 @@
     <Content Include="Views\Clients\Details.cshtml" />
     <Content Include="Views\Clients\Edit.cshtml" />
     <Content Include="Views\Clients\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Client.cshtml" />
+    <Content Include="Views\Shared\EidtTemplates\Client.cshtml" />
+    <Content Include="Views\Shared\EidtTemplates\DateTime.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CreditRating.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Base\" />
