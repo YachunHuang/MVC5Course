@@ -1,0 +1,11 @@
+﻿@model double?
+@if (Model.HasValue)
+{
+    for (int i = 0; i < 10; i++)
+    {
+        <label>
+            @Html.RadioButton("", i, Model.HasValue && Model.Value == i)
+            @i 
+        </label>
+    }
+}
