@@ -12,17 +12,29 @@ using MVC5Course.Models;
 
 namespace MVC5Course.Controllers
 {
+    /// <summary>
+    /// Product資料的API
+    /// </summary>
     public class ProductsApiController : ApiController
     {
         private FabricsEntities db = new FabricsEntities();
 
         // GET: api/ProductsApi
+        /// <summary>
+        /// 取得所有商品
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<Product> GetProduct()
         {
             return db.Product;
         }
 
         // GET: api/ProductsApi/5
+        /// <summary>
+        /// 取得單一商品
+        /// </summary>
+        /// <param name="id">商品id</param>
+        /// <returns></returns>
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
@@ -36,6 +48,12 @@ namespace MVC5Course.Controllers
         }
 
         // PUT: api/ProductsApi/5
+        /// <summary>
+        /// 更新商品
+        /// </summary>
+        /// <param name="id">商品id</param>
+        /// <param name="product">商品</param>
+        /// <returns></returns>
         [ResponseType(typeof(void))]
         public IHttpActionResult PutProduct(int id, Product product)
         {
@@ -71,6 +89,11 @@ namespace MVC5Course.Controllers
         }
 
         // POST: api/ProductsApi
+        /// <summary>
+        /// 新增一筆商品
+        /// </summary>
+        /// <param name="product">商品</param>
+        /// <returns></returns>
         [ResponseType(typeof(Product))]
         public IHttpActionResult PostProduct(Product product)
         {
@@ -86,6 +109,11 @@ namespace MVC5Course.Controllers
         }
 
         // DELETE: api/ProductsApi/5
+        /// <summary>
+        /// 刪除一筆商品
+        /// </summary>
+        /// <param name="id">商品id</param>
+        /// <returns></returns>
         [ResponseType(typeof(Product))]
         public IHttpActionResult DeleteProduct(int id)
         {
@@ -101,6 +129,10 @@ namespace MVC5Course.Controllers
             return Ok(product);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -110,6 +142,11 @@ namespace MVC5Course.Controllers
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// 判斷商品是否存在
+        /// </summary>
+        /// <param name="id">商品id</param>
+        /// <returns></returns>
         private bool ProductExists(int id)
         {
             return db.Product.Count(e => e.ProductId == id) > 0;
