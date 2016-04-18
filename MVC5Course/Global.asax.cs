@@ -21,6 +21,9 @@ namespace MVC5Course
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());
 
+            //TODO:設定讓 ASP.NET Web API 無論任何要求都回應 JSON 格式
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+
         }
     }
 }
