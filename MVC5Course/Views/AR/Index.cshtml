@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Hello kiwi</h2>
+<a href="@Url.Action("FileTest")?dl=1">
+    <img src="@Url.Action("FileTest")" alt="kiwi"/>
+</a>
+<button id="btnJson" >執行JsonText並輸出結果到Console視窗</button>
+<input id="txtId" type="text"/>
+@section scripts
+{
+    <script>
+        $("#btnJson").on('click',function() {
+            $.get('@Url.Action("JsonTest")'+"/"+$('textId').val(), "", function (data) {
+                if (window.console) {
+                    console.log(data);
+                }
+            });
+        });
+    </script>    
+}
