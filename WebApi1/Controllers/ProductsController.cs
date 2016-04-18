@@ -34,13 +34,19 @@ namespace WebApi1.Controllers
 
         public IHttpActionResult PostProduct(Product product)
         {
-            products.Add(product);
-            return Created(this.Url.Route("DefaultApi",new { id= product .Id}),products);
+            if (ModelState.IsValid)
+            {
+                products.Add(product);
+                return Created(this.Url.Route("DefaultApi", new { id = product.Id }), products);
+            }
+
+            return BadRequest(ModelState);
         }
 
-        public IHttpActionResult DeleteProduct(Product product)
+        public IHttpActionResult DeleteProduct(int id)
         {
-            products.Contains(product);
+            var one = products.FirstOrDefault(p => p.Id == id);
+            products.Remove(one);
             return Ok(products);
         }
     }
