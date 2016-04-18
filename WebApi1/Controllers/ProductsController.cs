@@ -10,7 +10,7 @@ namespace WebApi1.Controllers
 {
     public class ProductsController : ApiController
     {
-        Product[] products = new Product[]
+        static List<Product> products = new List<Product>()
                {
             new Product { Id = 1, Name = "Tomato Soup", Category = "Groceries", Price = 1 },
             new Product { Id = 2, Name = "Yo-yo", Category = "Toys", Price = 3.75M },
@@ -30,6 +30,18 @@ namespace WebApi1.Controllers
                 return NotFound();
             }
             return Ok(product);
+        }
+
+        public IHttpActionResult PostProduct(Product product)
+        {
+            products.Add(product);
+            return Created(this.Url.Route("DefaultApi",new { id= product .Id}),products);
+        }
+
+        public IHttpActionResult DeleteProduct(Product product)
+        {
+            products.Contains(product);
+            return Ok(products);
         }
     }
 }
