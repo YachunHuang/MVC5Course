@@ -32,15 +32,11 @@ namespace WebApi1.Controllers
             return Ok(product);
         }
 
+        [ValidModel]
         public IHttpActionResult PostProduct(Product product)
         {
-            if (ModelState.IsValid)
-            {
-                products.Add(product);
-                return Created(this.Url.Route("DefaultApi", new { id = product.Id }), products);
-            }
-
-            return BadRequest(ModelState);
+            products.Add(product);
+            return Created(this.Url.Route("DefaultApi", new { id = product.Id }), products);
         }
 
         public IHttpActionResult DeleteProduct(int id)
