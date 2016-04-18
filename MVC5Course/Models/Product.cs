@@ -21,13 +21,34 @@ namespace MVC5Course.Models
             this.OrderLine = new HashSet<OrderLine>();
         }
     
+        /// <summary>
+        /// 商品id
+        /// </summary>
         public int ProductId { get; set; }
+        /// <summary>
+        /// 名稱
+        /// </summary>
         public string ProductName { get; set; }
+        /// <summary>
+        /// 金額
+        /// </summary>
         public Nullable<decimal> Price { get; set; }
+        /// <summary>
+        /// 是否啟用
+        /// </summary>
         public Nullable<bool> Active { get; set; }
+        /// <summary>
+        /// Stock
+        /// </summary>
         public Nullable<decimal> Stock { get; set; }
+        /// <summary>
+        /// 是否刪除
+        /// </summary>
         public bool IsDelete { get; set; }
-    
+
+        /// <summary>
+        /// OrderLine導覽屬性
+        /// </summary>
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderLine> OrderLine { get; set; }
